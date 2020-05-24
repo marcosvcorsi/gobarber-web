@@ -3,7 +3,7 @@ import { FiLogIn, FiMail } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -22,6 +22,8 @@ interface ForgotPasswordFormData {
 }
 
 const ForgotPassword: React.FC = () => {
+  const history = useHistory();
+
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
 
@@ -54,6 +56,8 @@ const ForgotPassword: React.FC = () => {
           description:
             'Enviamos um e-mail para confirmar a recuperação de senha, verifique sua caixa de entrada',
         });
+
+        history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErros(err);
@@ -73,7 +77,7 @@ const ForgotPassword: React.FC = () => {
         setLoading(false);
       }
     },
-    [addToast],
+    [addToast, history],
   );
 
   return (
@@ -92,7 +96,7 @@ const ForgotPassword: React.FC = () => {
             </Button>
           </Form>
 
-          <Link to="/signin">
+          <Link to="/">
             <FiLogIn />
             Voltar ao Login
           </Link>
